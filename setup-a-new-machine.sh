@@ -1,76 +1,54 @@
 # copy paste this file in bit by bit.
 # don't run it.
-  echo "do not run this script in one go. hit ctrl-c NOW"
-  read -n 1
+echo "do not run this script in one go. hit ctrl-c NOW"
+read -n 1
+
 
 
 ##############################################################################################################
-###  backup old machine's key items
+### old machine backup
 
+#  backup old machine's key items
 mkdir -p ~/migration/home
 cd ~/migration
 
-# what is worth reinstalling?
-brew leaves      		> brew-list.txt    # all top-level brew installs
-brew cask list 			> cask-list.txt
-npm list -g --depth=0 	> npm-g-list.txt
 
+# what is worth reinstalling?
+brew leaves > brew-list.txt    # all top-level brew installs
+brew cask list > cask-list.txt
+npm list -g --depth=0 > npm-g-list.txt
 
 # then compare brew-list to what's in `brew.sh`
 #   comm <(sort brew-list.txt) <(sort brew.sh-cleaned-up)
 
+
 # let's hold on to these
-
-cp ~/.extra ~/migration/home
-cp ~/.z ~/migration/home
-
 cp -R ~/.ssh ~/migration/home
-cp -R ~/.gnupg ~/migration/home
-
+cp ~/.bash_history ~/migration/home
+cp ~/.extra ~/migration/home
+cp ~/.gitconfig.local ~/migration/home
+cp ~/.shuttle.json ~/migration/home
 cp /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist ~/migration  # wifi
 
-cp ~/Library/Preferences/net.limechat.LimeChat.plist ~/migration
-cp ~/Library/Preferences/com.tinyspeck.slackmacgap.plist ~/migration
 
-cp -R ~/Library/Services ~/migration # automator stuff
-
-cp -R ~/Documents ~/migration
-
-cp ~/.bash_history ~/migration # back it up for fun?
-
-cp ~/.gitconfig.local ~/migration
-
-cp ~/.z ~/migration # z history file.
-
-# sublime text settings
-cp "~/Library/Application Support/Sublime Text 3/Packages" ~/migration
+# (optional) take a screenshot of your dock to remember what goes where
 
 
-# iTerm settings.
-  # Prefs, General, Use settings from Folder
-
-# Finder settings and TotalFinder settings
-#   Not sure how to do this yet. Really want to.
-
-# Timestats chrome extension stats
-#   chrome-extension://ejifodhjoeeenihgfpjijjmpomaphmah/options.html#_options
-# 	gotta export into JSON through devtools:
-#     copy(JSON.stringify(localStorage, null, '  '))
-#     pbpaste > timestats-canary.json.txt
-
-# Current Chrome tabs via OneTab
-
-# software licenses like sublimetext
-
-
-### end of old machine backup
-##############################################################################################################
+# set up symlink of settings for any other apps
+# find the application in [mackup](https://github.com/lra/mackup/tree/master/mackup/applications) to see where settings are
 
 
 
 ##############################################################################################################
-### XCode Command Line Tools
-#      thx https://github.com/alrra/dotfiles/blob/ff123ca9b9b/os/os_x/installs/install_xcode.sh
+### install fresh copy of el capitan
+
+# good starting point [here](http://mashable.com/2015/10/01/clean-install-os-x-el-capitan/)
+
+
+
+##############################################################################################################
+### Install XCode Command Line Tools
+# thx https://github.com/alrra/dotfiles/blob/ff123ca9b9b/os/os_x/installs/install_xcode.sh
 
 if ! xcode-select --print-path &> /dev/null; then
 
@@ -104,8 +82,6 @@ if ! xcode-select --print-path &> /dev/null; then
     print_result $? 'Agree with the XCode Command Line Tools licence'
 
 fi
-###
-##############################################################################################################
 
 
 
@@ -120,44 +96,20 @@ export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
 ./brew.sh
 ./brew-cask.sh
 
-### end of homebrew
-##############################################################################################################
-
 
 
 
 ##############################################################################################################
 ### install of common things
-###
 
 # github.com/jamiew/git-friendly
 # the `push` command which copies the github compare URL to my clipboard is heaven
 bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
 
 
-# Type `git open` to open the GitHub page or website for a repository.
-npm install -g git-open
-# trash as the safe `rm` alternative
-npm install --global trash-cli
-
-
-# github.com/rupa/z   - oh how i love you
-git clone https://github.com/rupa/z.git ~/code/z
-# consider reusing your current .z file if possible. it's painful to rebuild :)
-# z is hooked up in .bash_profile
-
-
 # github.com/thebitguru/play-button-itunes-patch
 # disable itunes opening on media keys
 git clone https://github.com/thebitguru/play-button-itunes-patch ~/code/play-button-itunes-patch
-
-
-# my magic photobooth symlink -> dropbox. I love it.
-# 	 + first move Photo Booth folder out of Pictures
-# 	 + then start Photo Booth. It'll ask where to put the library.
-# 	 + put it in Dropbox/public
-# 	* Now… you can record photobooth videos quickly and they upload to dropbox DURING RECORDING
-# 	* then you grab public URL and send off your video message in a heartbeat.
 
 
 # for the c alias (syntax highlighted cat)
@@ -166,29 +118,36 @@ sudo easy_install Pygments
 
 # change to bash 4 (installed by homebrew)
 BASHPATH=$(brew --prefix)/bin/bash
-#sudo echo $BASHPATH >> /etc/shells
 sudo bash -c 'echo $(brew --prefix)/bin/bash >> /etc/shells'
-chsh -s $BASHPATH # will set for current user only.
-echo $BASH_VERSION # should be 4.x not the old 3.2.X
-# Later, confirm iterm settings aren't conflicting.
-
-
-# iterm with more margin! http://hackr.it/articles/prettier-gutter-in-iterm-2/
-#   (admittedly not as easy to maintain)
+chsh -s $BASHPATH  # will set for current user only.
+echo $BASH_VERSION  # should be 4.x not the old 3.2.X
 
 
 # setting up the sublime symlink
 ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 
 
-###
-##############################################################################################################
+# python virtualenvwrapper
+pip install virtualenv
+pip install virtualenvwrapper
+
+
+# ruby via rvm
+command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+\curl -L https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install ruby-2.3.1  # check this is latest version http://www.ruby-lang.org/en/downloads/
+
+
+# node modules
+npm install -g git-open  # `git open` to open the GitHub page or website for a repository.
+npm install -g trash-cli  # trash as the safe `rm` alternative
+npm install -g statik  # use with `server` function
 
 
 
 ##############################################################################################################
 ### remaining configuration
-###
 
 # go read mathias, paulmillr, gf3, alraa's dotfiles to see what's worth stealing.
 
@@ -199,24 +158,69 @@ ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/su
 #   maybe something else in here https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
 sh .osx
 
-# setup and run Rescuetime!
-
-###
-##############################################################################################################
+# setup and run Carbon Copy Cloner!
 
 
 
 ##############################################################################################################
 ### symlinks to link dotfiles into ~/
-###
 
-#   move git credentials into ~/.gitconfig.local    	http://stackoverflow.com/a/13615531/89484
-#   now .gitconfig can be shared across all machines and only the .local changes
+# move git credentials into `~/.gitconfig.local` http://stackoverflow.com/a/13615531/89484
+# now .gitconfig can be shared across all machines and only the .local changes
 
 # symlink it up!
 ./symlink-setup.sh
 
-# add manual symlink for .ssh/config and probably .config/fish
+# add manual symlink for .ssh/config
 
-###
+
+
 ##############################################################################################################
+### post symlinks installations
+
+## install nvm https://github.com/creationix/nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash
+
+
+# symlink settings (some of these directories won't exist yet)
+
+# adobe photoshop
+cd ~/Library/Preferences
+ln -s ~/Google\ Drive/Apps/Adobe/Adobe\ Photoshop\ CC\ 2015\ Settings
+
+# couchpotato
+cd ~/Library/Application\ Support/CouchPotato
+ln -s ~/Google\ Drive/Apps/CouchPotato/database
+ln -s ~/Google\ Drive/Apps/CouchPotato/db_backup
+ln -s ~/Google\ Drive/Apps/CouchPotato/settings.conf
+
+# ios simulator
+ln -s /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/ /Applications/
+
+# sabnzbd
+cd ~/Library/Application\ Support
+ln -s ~/Google\ Drive/Apps/SABnzbd
+
+# sonarr
+cd ~/.config
+ln -s ~/Google\ Drive/Apps/Sonarr/NzbDrone
+
+# sublime
+cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/
+ln -s ~/Google\ Drive/Apps/Sublime/User
+
+# transmit
+cd ~/Library/Application\ Support/Transmit
+ln -s ~/Google\ Drive/Apps/Transmit/Favorites
+
+# viscocity
+cd ~/Library/Application\ Support
+ln -s ~/Google\ Drive/Apps/Viscocity
+
+
+# install dropbox version for home vs work
+# based on http://wp.me/p4fLz7-d1
+HOME=$HOME/.dropbox-home /Applications/Dropbox.app/Contents/MacOS/Dropbox &
+
+# download latest 2 IE virtualbox instance from modern
+# https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/mac/
