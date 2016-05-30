@@ -141,7 +141,6 @@ rvm install ruby-2.3.1  # check this is latest version http://www.ruby-lang.org/
 # node modules
 npm install -g git-open  # `git open` to open the GitHub page or website for a repository.
 npm install -g trash-cli  # trash as the safe `rm` alternative
-npm install -g statik  # use with `server` function
 
 
 

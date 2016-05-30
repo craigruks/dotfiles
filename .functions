@@ -89,16 +89,6 @@ function hidden_toggle() {
   echo ${new_state}
 }
 
-# Start an HTTP server from a directory, optionally specifying the port
-# Alternatively, download Anvil for a GUI
-function server() {
-  local port="${1:-8000}"
-  open "http://localhost:${port}/" &
-  # statik is good because it won't expose hidden folders/files by default.
-  # npm install -g statik
-  statik --port "$port" .
-}
-
 # if i need php versions in the future...
 # https://github.com/wilmoore/php-version
 

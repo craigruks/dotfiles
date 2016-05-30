@@ -36,3 +36,7 @@ alias rm='trash'
 
 # recursive remove
 alias rrm='rm -Rf'
+
+# start an HTTP server from a directory, visit http://localhost:8000
+# thanks to willurd for the one liner! https://gist.github.com/willurd/5720255
+alias static_http_server='python -m SimpleHTTPServer 8000'
