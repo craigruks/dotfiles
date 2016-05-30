@@ -72,6 +72,23 @@ function localip() {
     sed -r "s/(VLAN Configurations)|==*//g"
 }
 
+# written by craigruks
+# toggles showing/hiding hidden files, auto restarts Finder as well
+function hidden_toggle() {
+  show=0
+  new_state='Files now hidden'
+
+  if [ `defaults read com.apple.finder AppleShowAllFiles` -eq "0" ]; then
+    new_state='Files now showing'
+    show=1
+  fi
+
+  defaults write com.apple.finder AppleShowAllFiles ${show}
+  killall "Finder" > /dev/null 2>&1
+
+  echo ${new_state}
+}
+
 # Start an HTTP server from a directory, optionally specifying the port
 # Alternatively, download Anvil for a GUI
 function server() {
