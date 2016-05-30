@@ -1,8 +1,9 @@
 [alias]
-	rbm = rebase -i origin/master
 	c = commit -am
-	up = pull
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	rbm = rebase -i origin/master
+	undopush = push -f origin HEAD^:master
+	up = pull
 
 [core]
 	excludesfile = ~/.gitignore

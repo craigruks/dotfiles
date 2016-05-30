@@ -90,7 +90,7 @@ One-off binaries that aren't via an npm global or homebrew.
 
 Once a month I do the following cleanup / security checks on my machine. Helps keep things lean and clean.
 
-- Brew/Cask updates `brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup`
+- Brew/Cask updates `brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup && brew prune && brew doctor`
 - Open App Store, check/install updates
 - Open Adobe, check/install updates
 - Use Carbon Copy Cloner, backup HD

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Update installed Ruby gems, Homebrew, npm, and their installed packages
-alias brew_update="brew -v update; brew upgrade --force-bottle --cleanup; brew cleanup; brew cask cleanup; brew prune; brew doctor; npm-check -g -u"
-
 # `cat` with beautiful colors. requires: sudo easy_install -U Pygments
 alias cat='pygmentize -O style=monokai -f console256 -g'
 
@@ -28,23 +25,14 @@ alias fuck='$(thefuck $(fc -ln -1))'
 # quick way to edit hosts
 alias hosts='sudo $EDITOR /etc/hosts'
 
-# what's my ip address?
+# what's my ip address? (use `localip` function for local network ip)
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-# viewing folders
+# view files in a way i like
 alias ll='ls -lahF'
-
-# make python3 virtualenv
-alias mkvirtualenv3='mkvirtualenv --python=/usr/local/bin/python3 '
 
 # remove sends to the trashcan, safer ftw
 alias rm='trash'
 
 # recursive remove
 alias rrm='rm -Rf'
-
-# symlink local dev sites
-alias suhosts='sudo vim /etc/hosts'
-
-# Undo a `git push`
-alias undopush="git push -f origin HEAD^:master"

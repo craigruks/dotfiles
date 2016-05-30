@@ -17,17 +17,17 @@ esac
 GRC=`which grc`
 if [ "$TERM" != dumb ] && [ -n "$GRC" ]
 then
-    alias colourify="$GRC -es --colour=auto"
-    alias configure='colourify ./configure'
-    alias diff='colourify diff'
-    alias ping='colourify ping'
-    alias traceroute='colourify /usr/sbin/traceroute'
-    alias head='colourify head'
-    alias tail='colourify tail'
-    alias ps='colourify ps'
-    alias mtr='colourify mtr'
-    alias df='colourify df'
-    alias ls='colourify ls'
+  alias colourify="$GRC -es --colour=auto"
+  alias configure='colourify ./configure'
+  alias diff='colourify diff'
+  alias ping='colourify ping'
+  alias traceroute='colourify /usr/sbin/traceroute'
+  alias head='colourify head'
+  alias tail='colourify tail'
+  alias ps='colourify ps'
+  alias mtr='colourify mtr'
+  alias df='colourify df'
+  alias ls='colourify ls'
 fi
 
 # highlighting inside manpages and elsewhere
@@ -43,9 +43,7 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 command -v gdircolors >/dev/null 2>&1 || alias gdircolors="dircolors"
 eval "$(gdircolors -b ~/.dircolors)"
 
-## tune bash_history
-
-# timestamps for later analysis. www.debian-administration.org/users/rossen/weblog/1
+# history timestamps for later analysis. www.debian-administration.org/users/rossen/weblog/1
 export HISTTIMEFORMAT='%F %T '
 
 # keep history up to date, across sessions, in realtime
@@ -60,8 +58,8 @@ which shopt > /dev/null && shopt -s histappend  # append to history, don't overw
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # bash completion.
-if  which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
-    source "$(brew --prefix)/share/bash-completion/bash_completion";
+if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
+  source "$(brew --prefix)/share/bash-completion/bash_completion";
 elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion;
+  source /etc/bash_completion;
 fi;

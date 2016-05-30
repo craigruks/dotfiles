@@ -55,6 +55,9 @@ brew install tree
 # compress file gzip zlib
 brew install zopfli
 
+# 7zip archive/extract
+brew install p7zip
+
 # video encoder
 brew install ffmpeg --with-libvpx
 

@@ -27,7 +27,6 @@ cp -R ~/.ssh ~/migration/home
 cp ~/.bash_history ~/migration/home
 cp ~/.extra ~/migration/home
 cp ~/.gitconfig.local ~/migration/home
-cp ~/.shuttle.json ~/migration/home
 cp /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist ~/migration  # wifi
 
 
@@ -178,8 +177,12 @@ sh .osx
 ##############################################################################################################
 ### post symlinks installations
 
-## install nvm https://github.com/creationix/nvm
+# install nvm https://github.com/creationix/nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash
+
+
+# store mac address before any spoofing, just in case, run this command then copy out xx:xx:xx:xx:xx:xx
+ifconfig en0 ether
 
 
 # symlink settings (some of these directories won't exist yet)

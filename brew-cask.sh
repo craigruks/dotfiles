@@ -39,7 +39,6 @@ brew cask install postico
 brew cask install qlmarkdown
 brew cask install quiver
 brew cask install rested
-brew cask install shuttle
 brew cask install sublime-text
 brew cask install transmit
 brew cask install virtualbox
