@@ -22,6 +22,9 @@ alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 # thefuck: https://github.com/nvbn/thefuck
 alias fuck='$(thefuck $(fc -ln -1))'
 
+# hide from finder
+alias hide='chflags -h hidden'
+
 # quick way to edit hosts
 alias hosts='sudo $EDITOR /etc/hosts'
 
@@ -40,3 +43,6 @@ alias rrm='rm -Rf'
 # start an HTTP server from a directory, visit http://localhost:8000
 # thanks to willurd for the one liner! https://gist.github.com/willurd/5720255
 alias static_http_server='python -m SimpleHTTPServer 8000'
+
+# unhide from finder
+alias unhide='chflags -h nohidden'
