@@ -38,10 +38,14 @@ brew install python3
 brew install imagemagick --with-webp
 
 # ruby via rvm, finished in setup-a-new-machine.sh
+brew install libyaml
 brew install gpg
 
 # heroku development
 brew install heroku-toolbelt
+
+# ftp cli !
+brew install lftp
 
 # https://github.com/sivel/speedtest-cli
 brew install speedtest_cli

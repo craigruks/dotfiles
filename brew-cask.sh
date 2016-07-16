@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# to maintain cask: `brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup`
+# to maintain cask: `brew update && brew cleanup && brew cask cleanup`
 # to search for new ones https://caskroom.github.io/search
 
 
-# cask itself
-brew install caskroom/cask/brew-cask
-brew tap caskroom/versions
+# install cask itself
+brew tap caskroom/cask
 
 # browsers
 brew cask install firefox
@@ -33,6 +32,7 @@ brew cask install gitbox
 brew cask install gitup
 brew cask install imageoptim
 brew cask install iterm2
+brew cask install ngrok
 brew cask install openoffice
 brew cask install postgres
 brew cask install postico

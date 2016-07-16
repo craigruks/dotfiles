@@ -48,9 +48,6 @@ This is how I do mine:
 # default unix bins
 PATH=/usr/local/bin:/usr/bin:/bin:/sbin
 
-# git-friendly
-PATH=$PATH:~/code/git-friendly
-
 # heroku toolbelt
 PATH=$PATH:/usr/local/heroku/bin
 
@@ -90,10 +87,11 @@ One-off binaries that aren't via an npm global or homebrew.
 
 Once a month I do the following cleanup / security checks on my machine. Helps keep things lean and clean.
 
-- Brew/Cask updates `brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup && brew prune && brew doctor`
+- Brew updates `brew update && brew upgrade && brew cleanup && brew cask cleanup && brew prune && brew doctor`
+- Update cask apps with the `cask_update` bash function
 - Open App Store, check/install updates
 - Open Adobe, check/install updates
-- Use Carbon Copy Cloner, backup HD
 - Use Clean My Mac
 - Use Lockdown
 - Use MalwareBytes
+- Use Carbon Copy Cloner, backup HD
