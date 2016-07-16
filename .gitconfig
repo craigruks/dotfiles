@@ -1,5 +1,8 @@
 [alias]
+	amend = commit --amend
 	c = commit -am
+	delete-origin-branch = push origin --delete
+	hard-reset = reset --hard origin/master
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 	rbm = rebase -i origin/master
 	undopush = push -f origin HEAD^:master
@@ -7,6 +10,7 @@
 
 [core]
 	excludesfile = ~/.gitignore
+	quotepath = false
 
 # so much color
 [color]
