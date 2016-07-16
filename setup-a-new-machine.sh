@@ -101,11 +101,6 @@ export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
 ##############################################################################################################
 ### install of common things
 
-# github.com/jamiew/git-friendly
-# the `push` command which copies the github compare URL to my clipboard is heaven
-bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
-
-
 # github.com/thebitguru/play-button-itunes-patch
 # disable itunes opening on media keys
 git clone https://github.com/thebitguru/play-button-itunes-patch ~/code/play-button-itunes-patch
@@ -199,9 +194,13 @@ ln -s ~/Google\ Drive/Apps/CouchPotato/settings.conf
 # ios simulator
 ln -s /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/ /Applications/
 
+# plex media server plugins, uses webtools https://github.com/dagalufh/WebTools.bundle/releases/tag/2.2
+cd ~/Library/Application\ Support/Plex\ Media\ Server
+ln -s ~/Google\ Drive/Apps/Plex\ Media\ Server/Plug-ins
+
 # sabnzbd
-cd ~/Library/Application\ Support
-ln -s ~/Google\ Drive/Apps/SABnzbd
+cd ~/Library/Application\ Support/SABnzbd
+ln -s ~/Google\ Drive/Apps/SABnzbd/sabnzbd.ini
 
 # sonarr
 cd ~/.config
