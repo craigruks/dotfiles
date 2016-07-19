@@ -85,9 +85,12 @@ set_prompts() {
       [ "$env" != "" ] && echo " $env"
     }
 
+    # option here to show env name or python version, i prefer version
     function __virtualenv() {
       local env=$(basename "$VIRTUAL_ENV")
-      [ "$env" != "" ] && echo " $env"
+      local pythonv=$(python --version 2>&1 | awk '{print $2}')
+      # [ "$env" != "" ] && echo " $env"  # show environment name
+      [ "$env" != "" ] && echo " $pythonv"  # show python version
     }
 
     function __node() {
