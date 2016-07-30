@@ -37,9 +37,10 @@ brew install python
 brew install python3
 brew install imagemagick --with-webp
 
-# ruby via rvm, finished in setup-a-new-machine.sh
+# ruby via rbenv, finished in setup-a-new-machine.sh
 brew install libyaml
 brew install gpg
+brew install rbenv
 
 # heroku development
 brew install heroku-toolbelt

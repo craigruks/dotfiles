@@ -80,9 +80,9 @@ set_prompts() {
       echo " ${branchName}"
     }
 
-    function __my_rvm_ruby_version() {
-      local env=$(basename "$GEM_HOME" | awk -F'-' '{print $2} ')
-      [ "$env" != "" ] && echo " $env"
+    function __my_rbenv_ruby_version() {
+      local env=$(rbenv version | sed -e 's/ .*//')
+      [ "$env" != "system" ] && [ "$RBENV" == "true" ] && echo " $env"
     }
 
     # option here to show env name or python version, i prefer version
@@ -112,7 +112,7 @@ set_prompts() {
     PS1="\[$bold$green\]\w"
     PS1+="\[${cyan}\]\$(__node)"
     PS1+="\[${blue}\]\$(__virtualenv)"
-    PS1+="\[${violet}\]\$(__my_rvm_ruby_version)"
+    PS1+="\[${violet}\]\$(__my_rbenv_ruby_version)"
     PS1+="\[${purple}\]\$(__git_branch)"
     PS1+="\[${orange}\]\$(__git_dirty)"
     PS1+="\[$reset$white\] $ \[$reset\]"

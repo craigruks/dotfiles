@@ -175,16 +175,10 @@ function start_nvm() {
   alias nvm_use_default='nvm use default node'  # use default version of node
 }
 
-# Load RVM
-function start_rvm() {
-  # Load RVM into a shell session *as a function*
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-  # Add RVM to PATH for scripting
-  PATH=$HOME/.rvm/bin:$PATH
-
-  # Use default environment
-  PATH=$HOME/.rvm/gems/ruby-2.3.1/bin:$PATH
+# Load ruby rbenv
+function start_rbenv() {
+  eval "$(rbenv init -)"
+  export RBENV="true"  # used in .bash_prompt to know when to show ruby version
 }
 
 # Load python virtualenvwrapper

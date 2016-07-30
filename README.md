@@ -54,9 +54,6 @@ PATH=$PATH:/usr/local/heroku/bin
 # postgres
 PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.3/bin
 
-# ruby
-PATH=$PATH:~/.rvm/bin
-
 # ...
 ```
 
