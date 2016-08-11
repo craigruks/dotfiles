@@ -6,7 +6,7 @@ function cask_update() {
   set -e
 
   STAGING_LOCATION="$(brew cask doctor \
-      | grep -A1 '==> Homebrew-cask Staging Location:' | tail -n1 \
+      | grep -A1 '==> Homebrew-Cask Staging Location:' | tail -n1 \
       | awk '{print $1}')"
 
   echo "==> Upgrading casks"
@@ -173,6 +173,12 @@ function start_nvm() {
   alias npml='npm list $@ | grep ^[├└]'  # list top level npm packages
   alias npmgl='npm -g list $@ | grep ^[├└]'  # list top level npm packages globally
   alias nvm_use_default='nvm use default node'  # use default version of node
+}
+
+# Load python pyenv to work with custom bash
+function start_pyenv() {
+  export VIRTUAL_ENV_DISABLE_PROMPT=1
+  source .pythonenv/bin/activate
 }
 
 # Load ruby rbenv
