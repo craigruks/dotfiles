@@ -201,6 +201,12 @@ function start_virtualenvwrapper() {
   alias mkvirtualenv3='mkvirtualenv --python=/usr/local/bin/python3 '
 }
 
+# Kill process on a port (useful when stuck)
+function terminate() {
+  local port=$1
+  lsof -P | grep ':${port}' | awk '{print $2}' | xargs kill -9
+}
+
 # Decode \x{ABCD}-style Unicode escape sequences
 # from troyxmccall/dotfiles
 function unidecode() {
