@@ -3,4 +3,4 @@
 [alias]
 amend = commit --amend
 fb_ic = ci -m "start feature branch"
-hard-reset = hg update --clean
+hard-reset = update --clean
