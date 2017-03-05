@@ -18,6 +18,7 @@ brew cask install google-drive
 # daily
 brew cask install 1password
 brew cask install alfred
+brew cask install rocket
 brew cask install spectacle
 
 # dev
@@ -34,6 +35,7 @@ brew cask install imageoptim
 brew cask install iterm2
 brew cask install ngrok
 brew cask install openoffice
+brew cask install osxfuse
 brew cask install postgres
 brew cask install postico
 brew cask install qlmarkdown
@@ -42,6 +44,8 @@ brew cask install rested
 brew cask install sublime-text
 brew cask install transmit
 brew cask install virtualbox
+# --- trying out:
+brew cask install google-cloud-sdk
 
 # maintenance
 brew cask install apptrap
@@ -82,6 +86,7 @@ brew cask install viscosity
 
 # airmail 2
 # day one
+# flashlight - to install https://github.com/nate-parrott/Flashlight/issues/537#issuecomment-225696255
 # gemini 2
 # docker beta
 # feedly
@@ -89,5 +94,7 @@ brew cask install viscosity
 # icon slate
 # monity
 # monosnap
+# patterns
 # power json editor
 # wunderlist
+# xquartz (compile c++) https://www.xquartz.org

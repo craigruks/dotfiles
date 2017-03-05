@@ -66,7 +66,8 @@ brew install p7zip
 # video encoder
 brew install ffmpeg --with-libvpx
 
-
+# terminal recorder
+brew install asciinema
 
 # Remove outdated versions from the cellar
 brew cleanup
