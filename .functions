@@ -1,76 +1,12 @@
 #!/bin/bash
 
-# since brew cask update doesn't exist yet, this is an adhoc way thanks to
-# https://gist.github.com/tonyseek/afa5902eb2713ca6cfab
-function cask_update() {
-  set -e
-
-  STAGING_LOCATION="$(brew cask doctor \
-      | grep -A1 '==> Homebrew-Cask Staging Location:' | tail -n1 \
-      | awk '{print $1}')"
-
-  echo "==> Upgrading casks"
-  for cask in $(ls ${STAGING_LOCATION})
-  do
-      case "${cask}" in
-          tunnelblick)
-              echo "Skip ${cask}"
-              ;;
-          *)
-              brew cask install "${cask}"
-              ;;
-      esac
-  done
-
-  echo "==> Uninstalling casks"
-  _trash() {
-      if [ -z "$(command -v trash)" ]
-      then
-          echo >&2 "Please install trash: brew install trash"
-          exit 1
-      fi
-      if [ -e "$1" ]
-      then
-          trash "$1"
-          echo "trash $1: success"
-      else
-          echo "trash $1: missing"
-      fi
-  }
-  _list_old_versions() {
-      for path in "$@"
-      do
-          if [ -e "$1" ]
-          then
-              ls -1tr "$1" | sed '$d'
-          fi
-      done
-  }
-  for cask in $(ls ${STAGING_LOCATION})
-  do
-      for version in $(_list_old_versions \
-              "${STAGING_LOCATION}/${cask}" \
-              "${STAGING_LOCATION}/${cask}/.metadata")
-      do
-          echo "Clean ${cask} ${version}"
-          _trash "${STAGING_LOCATION}/${cask}/${version}"
-          _trash "${STAGING_LOCATION}/${cask}/.metadata/${version}"
-      done
-  done
+# thanks to https://news.ycombinator.com/item?id=18903234
+function cheat() {
+  curl cht.sh/$1
 }
 
-# cd into whatever is the forefront Finder window.
-function cdf() {  # short for cdfinder
-  cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
-}
-
-# Copy w/ progress
-function cp_p () {
-  rsync -WavP --human-readable --progress $1 $2
-}
-
-# Extract archives - use: extract <file>
-# Based on http://dotfiles.org/~pseup/.bashrc
+# extract archives - use: extract <file>
+# based on http://dotfiles.org/~pseup/.bashrc
 function extract() {
   if [ -f "$1" ] ; then
     local filename=$(basename "$1")
@@ -112,9 +48,14 @@ function f() {
   find . -name "$1" 2>&1 | grep -v 'Permission denied'
 }
 
-# generate shortened github link
-function gitio() {
-  curl -i "https://git.io" -F "url=$1"
+# git archive branch - tag then delete
+function git-archive() {
+  BRANCHNAME="$1"
+
+  echo ${BRANCHNAME}
+  git tag archive/${BRANCHNAME} origin/${BRANCHNAME}
+  git push origin --delete ${BRANCHNAME}
+  git branch -d ${BRANCHNAME}
 }
 
 # get gzipped size
@@ -139,66 +80,71 @@ function localip() {
 # written by craigruks
 # toggles showing/hiding hidden files, auto restarts Finder as well
 function hidden_toggle() {
-  show=0
-  new_state='Files now hidden'
+  SHOW=0
+  NEW_STATE="Files now hidden"
+  OLD_STATE=`defaults read com.apple.finder AppleShowAllFiles`
 
-  if [ `defaults read com.apple.finder AppleShowAllFiles` -eq "0" ]; then
-    new_state='Files now showing'
-    show=1
+  if [ "${OLD_STATE}" -eq "0" ]; then
+    NEW_STATE="Files now showing"
+    SHOW=1
   fi
 
-  defaults write com.apple.finder AppleShowAllFiles ${show}
+  defaults write com.apple.finder AppleShowAllFiles "${SHOW}"
   killall "Finder" > /dev/null 2>&1
 
-  echo ${new_state}
+  echo "${NEW_STATE}"
 }
-
-# if i need php versions in the future...
-# https://github.com/wilmoore/php-version
 
 # spoof MAC address for security
 # based on http://osxdaily.com/2012/03/01/change-mac-address-os-x/
 # run `sudo ifconfig en0 ether xx:xx:xx:xx:xx:xx` to reset
 function spoofmac () {
-  openssl rand -hex 1 | tr '[:lower:]' '[:upper:]' | xargs echo "obase=2;ibase=16;" | bc | cut -c1-6 | sed 's/$/00/' | xargs echo "obase=16;ibase=2;" | bc | sed "s/$/:$(openssl rand -hex 5 | sed 's/\(..\)/\1:/g; s/.$//' | tr '[:lower:]' '[:upper:]')/" | xargs sudo ifconfig en0 ether;
+  openssl rand -hex 1 | \
+  tr '[:lower:]' '[:upper:]' | \
+  xargs echo "obase=2;ibase=16;" | \
+  bc | \
+  cut -c1-6 | \
+  sed 's/$/00/' | \
+  xargs echo "obase=16;ibase=2;" | \
+  bc | \
+  sed "s/$/:$(openssl rand -hex 5 | \
+  sed 's/\(..\)/\1:/g; s/.$//' | \
+  tr '[:lower:]' '[:upper:]')/" | \
+  xargs sudo ifconfig en0 ether;
 }
 
-# Load NVM
-function start_nvm() {
-  # associate dir and run startup shell script
+# Load node virtual env
+function load_nvm() {
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-  # useful shortcuts
-  alias npml='npm list $@ | grep ^[├└]'  # list top level npm packages
-  alias npmgl='npm -g list $@ | grep ^[├└]'  # list top level npm packages globally
-  alias nvm_use_default='nvm use default node'  # use default version of node
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" >> /dev/null
 }
 
-# Load python pyenv to work with custom bash
-function start_pyenv() {
-  export VIRTUAL_ENV_DISABLE_PROMPT=1
-  source .pythonenv/bin/activate
+# Load python virtual env (python3)
+function load_pyenv() {
+  # helpful links for install, best practices
+  #   https://docs.python-guide.org/starting/install3/osx/
+  #   https://docs.python-guide.org/dev/virtualenvs/#virtualenvironments-ref
+  #   https://docs.brew.sh/Homebrew-and-Python
+
+  # add before pip if needed
+  pip="CFLAGS=-I$(brew --prefix)/include LDFLAGS=-L$(brew --prefix)/lib pip"
+
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  eval "$(pyenv init -)"
 }
 
-# Load ruby rbenv
-function start_rbenv() {
+# Load ruby virtual env
+function load_rbenv() {
+  # to use,
+  # create .ruby-version (2.3.1 for example)
+  # make `Gemfile`
+  # `gem install bundle && bundle install`
+
+  # oh-my-zsh
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
   eval "$(rbenv init -)"
   export RBENV="true"  # used in .bash_prompt to know when to show ruby version
-}
-
-# Load python virtualenvwrapper
-function start_virtualenvwrapper() {
-  export WORKON_HOME=~/.virtualenvs
-  export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-  export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-  source /usr/local/bin/virtualenvwrapper.sh
-
-  # don't show prompt bc it's already in custom prompt
-  export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-  # make python3 virtualenv
-  alias mkvirtualenv3='mkvirtualenv --python=/usr/local/bin/python3 '
 }
 
 # Kill process on a port (useful when stuck)

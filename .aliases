@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# `cat` with beautiful colors. requires: sudo easy_install -U Pygments
-alias cat='pygmentize -O style=monokai -f console256 -g'
-
 # space left in hd
 alias diskspace_report="df -P -kHl"
 
@@ -13,26 +10,29 @@ alias emptytrash=" \
   sudo rm -v /private/var/vm/sleepimage; \
 "
 
+# colorful cat!
+alias cat='bat --paging never --decorations never'
+
 # open dir in finder
 alias finder='open -a finder .'
 
 # flush DNS
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
-# thefuck: https://github.com/nvbn/thefuck
-alias fuck='$(thefuck $(fc -ln -1))'
-
 # hide from finder
 alias hide='chflags -h hidden'
-
-# quick way to edit hosts
-alias hosts='sudo $EDITOR /etc/hosts'
 
 # what's my ip address? (use `localip` function for local network ip)
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
+# where's my ip from? great for checking vpn
+alias iplocation="curl -s ipinfo.io/${ip} | sed -nE '/country/{s/.*:\s*\"(.*)\",/\1/p;q}'"
+
 # view files in a way i like
 alias ll='ls -lahF'
+
+# fuzzy finder for previewing file
+alias preview="fzf --preview 'bat --color \"always\" {}'"
 
 # remove sends to the trashcan, safer ftw
 alias rm='trash'
@@ -40,9 +40,14 @@ alias rm='trash'
 # recursive remove
 alias rrm='rm -Rf'
 
+# community driven help
+alias help='tldr'
+
 # start an HTTP server from a directory, visit http://localhost:8000
-# thanks to willurd for the one liner! https://gist.github.com/willurd/5720255
-alias static_http_server='python -m SimpleHTTPServer 8000'
+# thanks to willurd for the python and ruby one liners! https://gist.github.com/willurd/5720255
+# alias http_server='python -m SimpleHTTPServer 8000'
+alias http_server="ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start'"
+alias php_server='docker run -p 80:80 -v "${PWD}":/var/www/html php:7.0-apache'
 
 # unhide from finder
 alias unhide='chflags -h nohidden'
