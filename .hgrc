@@ -1,6 +1,0 @@
-%include ~/.hgrc.local
-
-[alias]
-amend = commit --amend
-fb_ic = ci -m "start feature branch"
-hard-reset = update --clean

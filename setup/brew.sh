@@ -32,10 +32,17 @@ brew install homebrew/dupes/openssh
 brew install homebrew/dupes/screen
 brew install git
 
+# php
+brew tap homebrew/dupes
+brew tap homebrew/versions
+brew tap homebrew/homebrew-php
+brew install php71
+brew install composer
+brew install php71-mcrypt
+
 # python
+brew install python@2
 brew install python
-brew install python3
-brew install imagemagick --with-webp
 
 # ruby via rbenv, finished in setup-a-new-machine.sh
 brew install libyaml
@@ -54,9 +61,6 @@ brew install speedtest_cli
 # other useful binaries
 brew install node # This installs `npm` too using the recommended installation method
 
-# tree of current dir
-brew install tree
-
 # compress file gzip zlib
 brew install zopfli
 
@@ -64,10 +68,10 @@ brew install zopfli
 brew install p7zip
 
 # video encoder
-brew install ffmpeg --with-libvpx
+# brew install ffmpeg --with-libvpx
 
 # terminal recorder
-brew install asciinema
+# brew install asciinema
 
 # Remove outdated versions from the cellar
 brew cleanup

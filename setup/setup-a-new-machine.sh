@@ -119,18 +119,19 @@ echo $BASH_VERSION  # should be 4.x not the old 3.2.X
 
 
 # setting up the sublime symlink
-ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+sudo ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+sudo ln -sf "/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge" /usr/local/bin/smerge
 
 
-# python virtualenvwrapper
-pip install virtualenv
-pip install virtualenvwrapper
-
+# pyenv
+brew install pyenv pyenv-virtualenv
 
 # node modules
 npm install -g git-open  # `git open` to open the GitHub page or website for a repository.
 npm install -g trash-cli  # trash as the safe `rm` alternative
 
+# nano styling, thanks to https://github.com/scopatz/nanorc
+curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sh
 
 
 ##############################################################################################################
@@ -142,7 +143,9 @@ npm install -g trash-cli  # trash as the safe `rm` alternative
 #   github.com/sorin-ionescu/prezto/blob/master/modules/utility/init.zsh
 
 # set up osx defaults
-#   maybe something else in here https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
+# maybe something else in here https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
+
+# WARNING! Run this with iTerm NOT Terminal. The settings changes for Terminal closes the script early haha
 sh .osx
 
 # setup and run Carbon Copy Cloner!
@@ -205,20 +208,21 @@ ln -s ~/Google\ Drive/Apps/Sonarr/NzbDrone
 
 # sublime
 cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/
-ln -s ~/Google\ Drive/Apps/Sublime/User
+ln -s ~/Google Drive/Apps/Sublime/User
 
 # transmit
 cd ~/Library/Application\ Support/Transmit
-ln -s ~/Google\ Drive/Apps/Transmit/Favorites
+ln -s ~/Google Drive/Apps/Transmit/Favorites
 
 # viscocity
 cd ~/Library/Application\ Support
-ln -s ~/Google\ Drive/Apps/Viscocity
+ln -s ~/Google Drive/Apps/Viscosity
 
 
-# install dropbox version for home vs work
-# based on http://wp.me/p4fLz7-d1
-HOME=$HOME/.dropbox-home /Applications/Dropbox.app/Contents/MacOS/Dropbox &
+# symlink gitup cli
+cd /usr/local/bin
+ln -s ~/Applications/GitUp.app/Contents/SharedSupport/gitup
+
 
 # download latest 2 IE virtualbox instance from modern
 # https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/mac/

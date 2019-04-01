@@ -2,7 +2,7 @@
 
 This is the core set of files that I clone on a new machine.
 
-Used [paulirish/dotfiles](https://github.com/paulirish/dotfiles) as a starting point (thank you!!). Once I pared down to only what I wanted, I looked through various other dotfiles to glean tidbits here and there.
+Used [paulirish/dotfiles](https://github.com/paulirish/dotfiles) as a starting point (thank you!!). Once I pared down to only what I wanted, I looked through various other dotfiles to glean tidbits here and there. Notably, [Remy Sharp's](https://remysharp.com/2018/08/23/cli-improved) upgrades in 2018 were much needed.
 
 
 #### Installing & using
@@ -14,48 +14,30 @@ Used [paulirish/dotfiles](https://github.com/paulirish/dotfiles) as a starting p
 
 ## Overview of files
 
-####  Automatic config
-* `.inputrc` - behavior of the actual prompt line
+#### oh-my-zsh
+* `.zshrc` - oh-my-zsh configuration
 
 #### shell environment
 ```bash
 .aliases  # one liner shortcuts
-.bash_profile  # settings for bash
-.bash_prompt  # color!
-.exports  # split out exports from profiles
 .functions  # larger helper methods
-.extra  # not included, explained below
+.extra  # anything custom, secret that should not be in repo
 ```
 
 #### manual run
 * `setup-a-new-machine.sh` - random apps i need installed
-* `symlink-setup.sh`  - sets up symlinks for all dotfiles and vim config.
+* `symlink-setup.sh`  - sets up symlinks for all dotfiles and configs.
 * `.osx` - run on a fresh osx setup
 * `brew.sh` & `brew-cask.sh` - homebrew initialization
 
 #### git
 * `.gitconfig`
-* `.gitmodules`
 
 
 ### `~/.extra` for your private configuration
 
-There will be items that don't belong to be committed to a git repo, because either 1) it shoudn't be the same across your machines or 2) it shouldn't be in a git repo. In there I have some EXPORTS, my PATH construction, and a few aliases for development purposes.
+There will be items that don't belong to be committed to a git repo, because either 1) it shoudn't be the same across your machines or 2) it shouldn't be in a git repo. In there I have some EXPORTS, my PATH construction, and a few functions to enter projects.
 
-This is how I do mine:
-
-```shell
-# default unix bins
-PATH=/usr/local/bin:/usr/bin:/bin:/sbin
-
-# heroku toolbelt
-PATH=$PATH:/usr/local/heroku/bin
-
-# postgres
-PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.3/bin
-
-# ...
-```
 
 
 ### `~/.osx` for OS X defaults
@@ -65,11 +47,6 @@ Mathias's repo and/or Paul's are great starting points. I walked through each on
 ```bash
 ./.osx
 ```
-
-
-### `~/.ssh`
-
-A nice goodie from Paul Irish that speeds up the connection to Github.
 
 
 ### `~/bin`
@@ -84,8 +61,12 @@ One-off binaries that aren't via an npm global or homebrew.
 
 Once a month I do the following cleanup / security checks on my machine. Helps keep things lean and clean.
 
-- Brew updates `brew update && brew upgrade && brew cleanup && brew cask cleanup && brew prune && brew doctor`
-- Update cask apps with the `cask_update` bash function
+- Brew updates `brew update && brew upgrade && brew cu && brew cleanup && brew cask cleanup && brew cleanup --prune-prefix && brew doctor` - make sure that the `brew cu` is run in Terminal, in case it upgrades iTerm2!
+- Docker cleanup
+```
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+docker rmi $(docker images | grep "none" | awk '/ / { print $3 }')
+```
 - Open App Store, check/install updates
 - Open Adobe, check/install updates
 - Use Clean My Mac
