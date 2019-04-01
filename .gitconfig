@@ -1,11 +1,13 @@
 [alias]
+	log = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	amend = commit --amend
 	c = commit -am
+	file-history = log --follow -p
 	delete-origin-branch = push origin --delete
 	hard-reset = reset --hard origin/master
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 	rbm = rebase -i origin/master
 	undopush = push -f origin HEAD^:master
+	# lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
 [core]
 	excludesfile = /Users/craigruks/.gitignore
@@ -56,9 +58,3 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
