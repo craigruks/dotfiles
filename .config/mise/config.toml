@@ -1,0 +1,19 @@
+# GLOBAL DEFAULTS ONLY. These apply when you're not inside a repo that pins its
+# own versions - a project's .mise.toml / .tool-versions / .nvmrc / .python-version
+# always overrides this. Goal: sane "current LTS / stable line" defaults for new
+# projects. `mise -C "$HOME" upgrade` (run by nix-rebuild) advances these within
+# their line; major jumps stay deliberate (you bump the spec below).
+[tools]
+node = "lts"      # auto-tracks the current Node LTS line (24 now → moves when LTS cuts over)
+python = "3.13"   # latest 3.13.x; bump to "3.14" when you want the new minor
+ruby = "3.4"      # latest 3.4.x (4.0 too fresh for the gem ecosystem)
+go = "1.26"       # latest 1.26.x (Go has no LTS; bump the minor yourself)
+rust = "latest"   # rolling toolchain, always current
+bun = "latest"
+"npm:@openai/codex" = "latest"
+
+[settings]
+experimental = true
+# NOTE: intentionally NOT setting `lockfile = true`. That's a global setting that
+# would make mise write mise.lock files inside your project repos too. Per-project
+# version control lives in each repo; this file is just the fallback default.

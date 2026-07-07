@@ -1,0 +1,5 @@
+#:schema https://mise.jdx.dev/schema/settings.json
+experimental = true
+
+[python]
+uv_venv_auto = "create"

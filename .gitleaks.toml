@@ -1,0 +1,17 @@
+# gitleaks config for this repo (used by .githooks/pre-commit and manual scans).
+# Extends the full default ruleset, then allowlists confirmed false positives.
+title = "dotfiles gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = """
+Third-party Raycast extension bundles are minified JS (100k–320k-char lines)
+that trip the linear-client-secret / asana-client-id rules with high-entropy
+substrings. Confirmed false positives (not author-authored secrets). These
+paths are also gitignored and untracked as of this cleanup.
+"""
+paths = [
+  '''\.config/raycast/''',
+]

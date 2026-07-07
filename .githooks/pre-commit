@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Block commits that contain secrets. Scans only what is staged.
+# Tracked in-repo and wired via `git config core.hooksPath .githooks`
+# (re-run that one line after a fresh clone - see .githooks/README.md).
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "⚠️  gitleaks not found on PATH - secret scan SKIPPED for this commit." >&2
+  echo "   Install it (already declared in flake): brew install gitleaks" >&2
+  exit 0
+fi
+
+if ! gitleaks git --pre-commit --staged --redact --no-banner; then
+  echo "" >&2
+  echo "🛑 gitleaks found a potential secret in your staged changes (blocked)." >&2
+  echo "   • Remove/relocate the secret (use fnox / varlock + 1Password for real values)," >&2
+  echo "   • or, if it is a confirmed false positive, allowlist it in .gitleaks.toml" >&2
+  echo "     or append '# gitleaks:allow' to the offending line." >&2
+  exit 1
+fi

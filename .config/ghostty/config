@@ -1,0 +1,26 @@
+# don't confirm when closing
+confirm-close-surface = false
+
+# so alt+s works for sesh-session
+macos-option-as-alt = true
+
+# add left right padding
+window-padding-x = 10,4
+
+# theme
+theme = Xcode Dark hc
+
+# font
+font-family = JetBrainsMono Nerd Font
+font-size = 12
+keybind = shift+enter=text:\n
+
+# split resizing (vim hjkl): h=left j=down k=up l=right
+keybind = ctrl+shift+h=resize_split:left,30
+keybind = ctrl+shift+j=resize_split:down,30
+keybind = ctrl+shift+k=resize_split:up,30
+keybind = ctrl+shift+l=resize_split:right,30
+# even out all splits (halves / thirds / quarters)
+keybind = ctrl+shift+equal=equalize_splits
+# maximize focused pane (toggle)
+keybind = ctrl+shift+z=toggle_split_zoom

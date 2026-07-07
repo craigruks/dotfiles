@@ -1,0 +1,38 @@
+# Global fnox config - the machine-level half of the secrets model.
+# Full rationale in README "Secrets policy". In short:
+#   • 1Password is the single source of truth for every secret value.
+#   • fnox owns MACHINE / AMBIENT secrets (login-shell env vars), resolved once
+#     and cached by the per-user daemon. This global config is inherited by every
+#     project's own fnox.toml, so projects only add their own references.
+#   • varlock owns PER-PROJECT env schema + validation + typegen + log-redaction
+#     inside app repos (fnox can't do those). The two do not overlap.
+#
+# Two rules this file exists to enforce:
+#   1. No exposed keys - this file holds ONLY op:// references, never a value.
+#   2. Siloing / least privilege - resolution is per-reference: a process is
+#      handed exactly the secrets it names, never a whole vault. Put machine
+#      secrets in a dedicated `OSX CLI` vault and grant the service account read on
+#      only that vault, so it can never see personal logins.
+#
+# Auth is headless via OP_SERVICE_ACCOUNT_TOKEN (exported from the macOS keychain
+# in .zshrc), so this also works on the remote box that has no 1Password GUI.
+
+[providers]
+# Declared once here so every project fnox.toml inherits it and only needs to add
+# its own siloed [secrets]. `account` is the 1Password sign-in address; no default
+# `vault` on purpose - each reference below names its own vault, keeping secrets
+# siloed rather than pinning the whole config to one vault.
+op = { type = "1password", account = "my.1password.com" }
+
+# Ambient machine secrets - exported into every shell by `fnox activate` (.zshrc).
+# Empty on purpose. This laptop authenticates via web-OAuth (gh, anthropic,
+# vercel, neon) or the 1Password SSH agent (git), and aws/cloudflare/turso are
+# per-project (their own vaults) - none is a machine-wide static token, so the
+# `OSX CLI` vault stays empty here. This block mainly earns its keep on the headless
+# remote box, where a web login isn't possible and you swap it for a
+# service-account-resolved token. NB: never put GH_TOKEN here - it overrides
+# `gh auth switch` and pins every shell to one account. Add entries as full,
+# siloed references (value never touches disk), then uncomment `fnox activate`:
+#
+#   MY_SERVICE_TOKEN = { provider = "op", value = "op://OSX CLI/my-service/token" }
+[secrets]

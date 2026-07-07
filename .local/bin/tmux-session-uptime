@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Print a tmux session's uptime given its creation epoch (#{session_created}).
+# Called from tmux status-right. Output like: 45m, 2h14m, 50h3m.
+created=${1:-0}
+d=$(( $(date +%s) - created ))
+h=$(( d / 3600 )); m=$(( d % 3600 / 60 ))
+if [ "$h" -gt 0 ]; then printf '%dh%dm' "$h" "$m"; else printf '%dm' "$m"; fi

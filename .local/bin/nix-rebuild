@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Global entry point for the "update the whole machine" flow.
+#
+# The actual logic lives in the `rebuild` recipe in ~/.dotfiles/justfile (single
+# source of truth, consistent with every other repo task). This shim just lets
+# you invoke it from anywhere - it doesn't depend on your current directory.
+#
+# So `nix-rebuild` (from any cwd) == `just rebuild` (from inside the repo).
+exec just --justfile "$HOME/.dotfiles/justfile" --working-directory "$HOME/.dotfiles" rebuild "$@"

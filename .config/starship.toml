@@ -1,0 +1,37 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Near-stock starship with a few deliberate trims:
+#   1. gcloud off - it leaked the active GCP account (an email) into the prompt.
+#   2. package (📦 vX) off.
+#   3. Language modules show ONLY their icon, not the version - keeps "which
+#      languages is this project" glanceable without the version-number noise.
+#      To make another language icon-only, add:  [lang]\nformat = "[$symbol]($style)"
+#
+# username/hostname are left stock (SSH-only), so user@host appears on remote
+# boxes (e.g. the Hetzner server) but never locally.
+
+[gcloud]
+disabled = true
+
+[package]
+disabled = true
+
+# --- languages: icon only, no version ---
+[nodejs]
+format = "[$symbol]($style)"
+[python]
+format = "[$symbol]($style)"
+[rust]
+format = "[$symbol]($style)"
+[ruby]
+format = "[$symbol]($style)"
+[golang]
+format = "[$symbol]($style)"
+[bun]
+format = "[$symbol]($style)"
+[deno]
+format = "[$symbol]($style)"
+[php]
+format = "[$symbol]($style)"
+[lua]
+format = "[$symbol]($style)"
