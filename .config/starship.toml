@@ -27,6 +27,11 @@ format = "[$symbol]($style)"
 format = "[$symbol]($style)"
 [golang]
 format = "[$symbol]($style)"
+# elixir needs icon-only too: with $version, starship boots the BEAM VM
+# (elixir --version) on every prompt in a mix project and blows the 500ms
+# command_timeout. Dropping $version skips that call entirely.
+[elixir]
+format = "[$symbol]($style)"
 [bun]
 format = "[$symbol]($style)"
 [deno]
